@@ -24,7 +24,7 @@ def generate_keys():
 
     #generate a cipher key
     # cipher_key = hashlib.md5(joined_passwd.encode("utf-8")).hexdigest()
-    return key
+    return print(key)
 
 if __name__=="__main__":
 

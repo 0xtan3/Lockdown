@@ -1,5 +1,16 @@
 #!/bin/bash
 
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <mount_point>"
+    exit 1
+fi
+
+MOUNT_POINT="$1"
+
+
+# Call the key_gen.py script and capture the output
+KEY=$(python3 key_gen.py)
+
 # make a directory named encrypted_img
 mkdir /encrypted_img
 
@@ -20,7 +31,7 @@ dev_node=luks
 
 # execute luksOpen
 echo "executing luksOpen"
-cryptsetup luksOpen --key-file /data/passwd.txt $loop_device $dev_node
+cryptsetup luksOpen --key-file <(echo -n "$KEY") $loop_device $dev_node
 
 # check whether the luksOpen has run properly
 if [[ -e "/dev/mapper/$dev_node" ]]; then
@@ -32,6 +43,6 @@ fi
 
 # mount the luks device to /data/db
 echo "mount device..."
-mount /dev/mapper/$dev_node /data/db
+mount /dev/mapper/$dev_node $MOUNT_POINT
 
 #Note => the mount point should be given by the user and the dev_node name should be also given by the user. Or else dev_node not needed for this. And there is db connectivity

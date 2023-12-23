@@ -40,24 +40,18 @@ LOCKDOWN is a user-friendly LUKS-based data at rest encryption tool designed for
     cd LOCKDOWN
     ```
 
-3. Run the installation script:
-
-    ```bash
-    bash install.sh
-    ```
-
 ## Usage
 
-1. Encrypting Database:
+1. Encryption:
 
     ```bash
-    ./lockdown --encrypt --database <database_name>
+    ./lockdown.sh --encrypt -m <mount_point>
     ```
 
-2. Decrypting Database:
+2. Decryption:
 
     ```bash
-    ./lockdown --decrypt --database <database_name>
+    ./lockdown.sh --decrypt -m <mount_point>
     ```
 
 3. Additional Options:
