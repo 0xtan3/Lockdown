@@ -56,12 +56,6 @@ LOCKDOWN is a user-friendly LUKS-based data at rest encryption tool designed for
 
 3. Additional Options:
 
-    - Specify encryption key:
-
-        ```bash
-        ./lockdown --encrypt --database <database_name> --key <encryption_key>
-        ```
-
     - View help:
 
         ```bash
