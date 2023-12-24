@@ -26,7 +26,7 @@ if [ ! -d "$new_dbpath" ]; then
 fi
 
 # assign a loop device to the file
-losetup -f /home/akileshjayaraman/Work/luks_test/archive.img
+losetup -f /backup/archive.img
 
 # get the loop device
 loop_device=$(losetup -a | grep archive.img | awk '{print $1}' | tr -d ':')

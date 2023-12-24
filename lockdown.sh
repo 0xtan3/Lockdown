@@ -36,6 +36,13 @@ function install_packages {
     sudo ./scripts/install.sh
 }
 
+function clean_all {
+    sudo umount $MOUNT_POINT
+    sudo cryptsetup luksClose luks #the device name needs to be made available dynamically
+    sudo losetup -D
+    echo "Luks device has been removed successfully"
+}
+
 # Function to perform encryption
 function encrypt {
     if [ -z "$MOUNT_POINT" ]; then
@@ -78,6 +85,11 @@ while [ "$#" -gt 0 ]; do
             install_packages 
             exit 0
             ;;
+        --clean)
+            MODE="clean"
+            clean_all
+            exit 0
+            ;;
         --encrypt)
             MODE="encrypt"
             ;;
@@ -114,6 +126,8 @@ elif [ "$MODE" == "decrypt" ]; then
     decrypt
 elif [ "$MODE" == "install" ]; then
     install_packages
+elif [ "$MODE" == "clean" ]; then
+    clean_all
 elif [ "$MODE" == "help" ]; then
     show_help
 else

@@ -24,9 +24,14 @@ def generate_keys():
 
     #generate a cipher key
     # cipher_key = hashlib.md5(joined_passwd.encode("utf-8")).hexdigest()
-    return print(key)
+    return key
+
+def save_output(output, file_path):
+    with open(file_path, "w") as f:
+        f.write(output)
 
 if __name__=="__main__":
 
     #execute the function call
-    generate_keys()
+    output = generate_keys()
+    save_output(output,"/opt/lockdown/key.txt")

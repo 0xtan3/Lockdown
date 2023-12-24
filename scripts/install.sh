@@ -20,3 +20,6 @@ fi
 
 # install python3
 apt install python3
+
+# make a tool directory
+mkdir /opt/lockdown
