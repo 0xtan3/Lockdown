@@ -4,7 +4,7 @@
 # Rotating keys may be fine but lets see there is something like a option to change the password
 import string
 import random
-# import hashlib
+
 
 def generate_keys():
 
@@ -22,8 +22,6 @@ def generate_keys():
         password.append(randomchar)
     key = "".join(password)    
 
-    #generate a cipher key
-    # cipher_key = hashlib.md5(joined_passwd.encode("utf-8")).hexdigest()
     return key
 
 def save_output(output, file_path):
@@ -35,3 +33,7 @@ if __name__=="__main__":
     #execute the function call
     output = generate_keys()
     save_output(output,"/opt/lockdown/key.txt")
+
+#TODO: keep key safe either give a rolling key or encrypt it
+#TODO: add option to change key
+#TODO: save key in /opt/lockdown

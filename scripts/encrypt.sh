@@ -7,7 +7,6 @@ fi
 
 MOUNT_POINT="$1"
 
-
 # Call the key_gen.py script and capture the output
 KEY=$(python3 key_gen.py)
 
@@ -24,7 +23,7 @@ losetup -f /encrypted_img/archive.img
 loop_device=$(losetup -a | grep archive.img | awk '{print $1}' | tr -d ':')
 
 # format the LUKS device with luksFormat
-cryptsetup luksFormat --batch-mode --key-file /data/passwd.txt $loop_device
+cryptsetup luksFormat --batch-mode --key-file /opt/lockdown/key.txt $loop_device
 
 # assign the device node to a variable
 dev_node=luks
@@ -45,4 +44,4 @@ fi
 echo "mount device..."
 mount /dev/mapper/$dev_node $MOUNT_POINT
 
-#Note => the mount point should be given by the user and the dev_node name should be also given by the user. Or else dev_node not needed for this. And there is db connectivity
+#TODO: the dev_node name should be also given by the user.

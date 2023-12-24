@@ -38,7 +38,7 @@ function install_packages {
 
 function clean_all {
     sudo umount $MOUNT_POINT
-    sudo cryptsetup luksClose luks #the device name needs to be made available dynamically
+    sudo cryptsetup luksClose luks #TODO:the device name needs to be made available dynamically
     sudo losetup -D
     echo "Luks device has been removed successfully"
 }
