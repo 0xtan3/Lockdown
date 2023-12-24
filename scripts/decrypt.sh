@@ -15,7 +15,6 @@ KEY=$(python3 key_gen.py)
 dev_node=luks_backup
 
 # creating directory for mount
-mnt_point=/data/mount
 if [ ! -d "$MOUNT_POINT" ]; then
     sudo mkdir -p "$MOUNT_POINT"
 fi
@@ -27,7 +26,7 @@ if [ ! -d "$new_dbpath" ]; then
 fi
 
 # assign a loop device to the file
-losetup -f /backup/archive.img
+losetup -f /home/akileshjayaraman/Work/luks_test/archive.img
 
 # get the loop device
 loop_device=$(losetup -a | grep archive.img | awk '{print $1}' | tr -d ':')

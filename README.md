@@ -39,6 +39,11 @@ LOCKDOWN is a user-friendly LUKS-based data at rest encryption tool designed for
     ```bash
     cd LOCKDOWN
     ```
+3. Make the script executable:
+
+    ```bash
+    sudo chmod +x ./lockdown.sh
+    ```
 
 ## Usage
 
