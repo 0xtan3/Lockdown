@@ -30,7 +30,7 @@ dev_node=luks
 
 # execute luksOpen
 echo "executing luksOpen"
-cryptsetup luksOpen --key-file <(echo -n "$KEY") $loop_device $dev_node
+cryptsetup luksOpen --key-file <(echo -n "$KEY") $loop_device $dev_node #FIXME: The key is set to a file 
 
 # check whether the luksOpen has run properly
 if [[ -e "/dev/mapper/$dev_node" ]]; then
@@ -43,5 +43,4 @@ fi
 # mount the luks device to /data/db
 echo "mount device..."
 mount /dev/mapper/$dev_node $MOUNT_POINT
-
-#TODO: the dev_node name should be also given by the user.
+#TODO: make a backup here on a monthly basis where the sql gets dumped for keys and also the encrypted image file

@@ -4,6 +4,7 @@
 # Rotating keys may be fine but lets see there is something like a option to change the password
 import string
 import random
+from db_operations import add_key
 
 
 def generate_keys():
@@ -24,16 +25,18 @@ def generate_keys():
 
     return key
 
-def save_output(output, file_path):
-    with open(file_path, "w") as f:
-        f.write(output)
+# def save_output(output, file_path):
+#     with open(file_path, "w") as f:
+#         f.write(output)
 
 if __name__=="__main__":
 
     #execute the function call
     output = generate_keys()
-    save_output(output,"/opt/lockdown/key.txt")
 
-#TODO: keep key safe either give a rolling key or encrypt it
-#TODO: add option to change key
-#TODO: save key in /opt/lockdown
+    #add key to database
+    add_key(output)
+
+    # save_output(output,"/opt/lockdown/key.txt")
+
+

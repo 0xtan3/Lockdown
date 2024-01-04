@@ -7,9 +7,6 @@ fi
 
 MOUNT_POINT="$1"
 
-# Call the key_gen.py script and capture the output
-KEY=$(python3 key_gen.py)
-
 # variable representing the device node
 dev_node=luks
 
@@ -39,3 +36,4 @@ echo "mount device..."
 mount /dev/mapper/$dev_node $MOUNT_POINT
 
 #FIXME: --decrypt needs to know the encrypted image
+#FIXME: check for sqldump file or can give key manually

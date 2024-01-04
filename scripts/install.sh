@@ -21,5 +21,8 @@ fi
 # install python3
 apt install python3
 
+# install python3
+apt install sqlite
+
 # make a tool directory
 mkdir /opt/lockdown
