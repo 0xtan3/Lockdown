@@ -7,10 +7,10 @@ echo "
 
     __    ____  ________ __ ____  ____ _       ___   __
    / /   / __ \/ ____/ //_// __ \/ __ \ |     / / | / /
-  / /   / / / / /   / ,<  / / / / / / / | /| / /  |/ / 
- / /___/ /_/ / /___/ /| |/ /_/ / /_/ /| |/ |/ / /|  /  
-/_____/\____/\____/_/ |_/_____/\____/ |__/|__/_/ |_/   
-                                        version $version                 
+  / /   / / / / /   / ,<  / / / / / / / | /| / /  |/ /
+ / /___/ /_/ / /___/ /| |/ /_/ / /_/ /| |/ |/ / /|  /
+/_____/\____/\____/_/ |_/_____/\____/ |__/|__/_/ |_/
+                                        version $version
 "
 
 # Function to display usage information
@@ -27,7 +27,7 @@ function show_help {
     echo "  -m <mount_point> Specify the mount point for the database"
     echo "  -d <dump_point>  Specify the location of file dumps"
     echo "  --install        Install required packages"
-    echo "  --help           Show this help message"   
+    echo "  --help           Show this help message"
 }
 
 # Function to install required packages
@@ -39,7 +39,7 @@ function install_packages {
 
 function clean_all {
     sudo umount $MOUNT_POINT
-    sudo cryptsetup luksClose luks 
+    sudo cryptsetup luksClose luks
     sudo losetup -D
     echo "Luks device has been removed successfully"
 }
@@ -58,7 +58,7 @@ function encrypt {
     # Get the key to the user
     show_key=$(python3 -c 'from scripts.db_operations import get_latest_key; print(get_latest_key())')
     echo "key: $show_key"
-    
+
     read -p "Do you wish to keep $MOUNT_POINT visible [Y/N] " choice
     if [[ $choice == [Yy] ]]; then
         sudo umount $MOUNT_POINT
@@ -74,10 +74,10 @@ function decrypt {
 
     if [ -z "$DUMP" ]; then
         echo "Error: File dumps cannot be found."
+    fi
 
     ./scripts/decrypt.sh $MOUNT_POINT $DUMP
 
-    echo
     echo -e "Decryption completed for $MOUNT_POINT\n"
     read -p "Do you wish to keep $MOUNT_POINT visible [Y/N] " choice
     if [[$choice == [Yy] ]]; then
@@ -90,7 +90,7 @@ while [ "$#" -gt 0 ]; do
     case "$1" in
         --install)
             MODE="install"
-            install_packages 
+            install_packages
             exit 0
             ;;
         --clean)
