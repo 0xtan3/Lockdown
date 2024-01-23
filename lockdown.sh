@@ -25,6 +25,7 @@ function show_help {
     echo "  --encrypt        Encrypt a database"
     echo "  --decrypt        Decrypt a database"
     echo "  -m <mount_point> Specify the mount point for the database"
+    echo "  -d <dump_point>  Specify the location of file dumps"
     echo "  --install        Install required packages"
     echo "  --help           Show this help message"   
 }
@@ -71,7 +72,10 @@ function decrypt {
         show_usage
     fi
 
-    ./scripts/decrypt.sh $MOUNT_POINT
+    if [ -z "$DUMP" ]; then
+        echo "Error: File dumps cannot be found."
+
+    ./scripts/decrypt.sh $MOUNT_POINT $DUMP
 
     echo
     echo -e "Decryption completed for $MOUNT_POINT\n"
@@ -103,6 +107,10 @@ while [ "$#" -gt 0 ]; do
         -m)
             shift
             MOUNT_POINT="$1"
+            ;;
+        -d)
+            shift
+            DUMP="$2"
             ;;
         --help)
             MODE="help"

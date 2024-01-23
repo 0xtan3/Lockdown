@@ -23,14 +23,15 @@ losetup -f /encrypted_img/archive.img
 loop_device=$(losetup -a | grep archive.img | awk '{print $1}' | tr -d ':')
 
 # format the LUKS device with luksFormat
-cryptsetup luksFormat --batch-mode --key-file /opt/lockdown/key.txt $loop_device
+(echo -n "$KEY") | cryptsetup luksFormat --batch-mode $loop_device
 
 # assign the device node to a variable
 dev_node=luks
 
 # execute luksOpen
 echo "executing luksOpen"
-cryptsetup luksOpen --key-file <(echo -n "$KEY") $loop_device $dev_node #FIXME: The key is set to a file 
+(echo -n "$KEY") | cryptsetup luksOpen $loop_device $dev_node
+# cryptsetup luksOpen --key-file <(echo -n "$KEY") $loop_device $dev_node  
 
 # check whether the luksOpen has run properly
 if [[ -e "/dev/mapper/$dev_node" ]]; then
@@ -44,3 +45,19 @@ fi
 echo "mount device..."
 mount /dev/mapper/$dev_node $MOUNT_POINT
 #TODO: make a backup here on a monthly basis where the sql gets dumped for keys and also the encrypted image file
+
+# cron job
+
+# minute/hour/day/month/day_of_week
+
+function cron_job {
+    # implement a cron job
+    (crontab -l 2>/dev/null; echo "0 0 1 * * ./scripts/backup/dump_sql.py") | crontab -
+    
+    # get the image
+    (crontab -l 2>/dev/null; echo)
+
+    # restart the cron service
+    sudo systemctl restart cron
+
+}

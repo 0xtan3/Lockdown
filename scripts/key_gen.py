@@ -1,7 +1,4 @@
 # key_gen.py
-
-# This is where the key files are generated and given to the crypt.sh file 
-# Rotating keys may be fine but lets see there is something like a option to change the password
 import string
 import random
 from db_operations import add_key

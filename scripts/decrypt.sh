@@ -7,6 +7,9 @@ fi
 
 MOUNT_POINT="$1"
 
+# pass location of the dump
+DUMP="$2"
+
 # variable representing the device node
 dev_node=luks
 
