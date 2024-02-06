@@ -2,6 +2,7 @@
 #!/bin/bash
 
 version=1.0
+Author="Akilesh Jayaraman"
 
 echo "
 
@@ -11,6 +12,7 @@ echo "
  / /___/ /_/ / /___/ /| |/ /_/ / /_/ /| |/ |/ / /|  /
 /_____/\____/\____/_/ |_/_____/\____/ |__/|__/_/ |_/
                                         version $version
+                                        by $Author
 "
 
 # Function to display usage information

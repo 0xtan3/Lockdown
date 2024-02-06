@@ -29,11 +29,8 @@ def generate_keys():
 if __name__=="__main__":
 
     #execute the function call
-    output = generate_keys()
-
-    #add key to database
-    add_key(output)
-
+    generate_keys()
     # save_output(output,"/opt/lockdown/key.txt")
 
 
+#TODO: Save the key in a file that deletes in 24 hours

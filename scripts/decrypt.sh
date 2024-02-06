@@ -32,7 +32,7 @@ loop_device=$(losetup -a | grep archive.img | awk '{print $1}' | tr -d ':')
 
 # execute luksOpen
 echo "executing luksOpen"
-cryptsetup luksOpen --key-file /opt/lockdown/key.txt $loop_device $dev_node
+(echo -n "$KEY") | cryptsetup luksOpen --key-file /opt/lockdown/key.txt $loop_device $dev_node
 
 # mount the luks device to /data/db
 echo "mount device..."
@@ -40,3 +40,4 @@ mount /dev/mapper/$dev_node $MOUNT_POINT
 
 #FIXME: --decrypt needs to know the encrypted image
 #FIXME: check for sqldump file or can give key manually
+#FIXME: key in the db is not passed in decryption
