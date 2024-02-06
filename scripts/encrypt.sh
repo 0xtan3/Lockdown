@@ -44,20 +44,3 @@ fi
 # mount the luks device to /data/db
 echo "mount device..."
 mount /dev/mapper/$dev_node $MOUNT_POINT
-#TODO: make a backup here on a monthly basis where the sql gets dumped for keys and also the encrypted image file
-
-# cron job
-
-# minute/hour/day/month/day_of_week
-
-function cron_job {
-    # implement a cron job
-    (crontab -l 2>/dev/null; echo "0 0 1 * * ./scripts/backup/dump_sql.py") | crontab -
-    
-    # get the image
-    (crontab -l 2>/dev/null; echo)
-
-    # restart the cron service
-    sudo systemctl restart cron
-
-}
