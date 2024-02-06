@@ -57,9 +57,6 @@ function encrypt {
 
     echo
     echo -e "Encryption completed for $MOUNT_POINT\n"
-    # Get the key to the user
-    show_key=$(python3 -c 'from scripts.db_operations import get_latest_key; print(get_latest_key())')
-    echo "key: $show_key"
 
     read -p "Do you wish to keep $MOUNT_POINT visible [Y/N] " choice
     if [[ $choice == [Yy] ]]; then
