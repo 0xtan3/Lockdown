@@ -8,16 +8,16 @@ fi
 MOUNT_POINT="$1"
 
 # Call the key_gen.py script and capture the output
-KEY=$(python3 key_gen.py)
+KEY=$(python3 ./scripts/key_gen.py)
 
 # make a directory named encrypted_img
-mkdir /encrypted_img
+mkdir /opt/encrypted_img
 
 # create a 15GB image file
-fallocate -l 10G /encrypted_img/archive.img
+fallocate -l 10G /opt/encrypted_img/archive.img
 
 # assign a loop device to the file
-losetup -f /encrypted_img/archive.img
+losetup -f /opt/encrypted_img/archive.img
 
 # get the loop device
 loop_device=$(losetup -a | grep archive.img | awk '{print $1}' | tr -d ':')
