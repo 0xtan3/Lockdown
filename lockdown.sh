@@ -17,7 +17,8 @@ echo "
 
 # Function to display usage information
 function show_usage {
-    echo "Usage: $0 (--encrypt|--decrypt) -m <mount_point>"
+    echo "To encrypt: $0 --encrypt -m <mount_point>"
+    echo "To decrypt: $0 --decrypt -m <mount_point> -d <dumped_files>"
     exit 1
 }
 
@@ -53,7 +54,7 @@ function encrypt {
         show_usage
     fi
 
-    ./scripts/encrypt.sh $MOUNT_POINT
+    sudo ./scripts/encrypt.sh $MOUNT_POINT
 
     echo
     echo -e "Encryption completed for $MOUNT_POINT\n"
@@ -61,6 +62,8 @@ function encrypt {
     read -p "Do you wish to keep $MOUNT_POINT visible [Y/N] " choice
     if [[ $choice == [Yy] ]]; then
         sudo umount $MOUNT_POINT
+    else
+        exit
     fi
 }
 
@@ -75,28 +78,21 @@ function decrypt {
         echo "Error: File dumps cannot be found."
     fi
 
-    ./scripts/decrypt.sh $MOUNT_POINT $DUMP
+    sudo ./scripts/decrypt.sh $MOUNT_POINT $DUMP
 
     echo -e "Decryption completed for $MOUNT_POINT\n"
     read -p "Do you wish to keep $MOUNT_POINT visible [Y/N] " choice
     if [[$choice == [Yy] ]]; then
         sudo umount $MOUNT_POINT
+    else
+        exit
     fi
 }
 
 # Parse command line arguments
 while [ "$#" -gt 0 ]; do
     case "$1" in
-        --install)
-            MODE="install"
-            install_packages
-            exit 0
-            ;;
-        --clean)
-            MODE="clean"
-            clean_all
-            exit 0
-            ;;
+
         --encrypt)
             MODE="encrypt"
             ;;
@@ -107,9 +103,15 @@ while [ "$#" -gt 0 ]; do
             shift
             MOUNT_POINT="$1"
             ;;
-        -d)
-            shift
-            DUMP="$2"
+        --install)
+            MODE="install"
+            install_packages
+            exit 0
+            ;;
+        --clean)
+            MODE="clean"
+            clean_all
+            exit 0
             ;;
         --help)
             MODE="help"

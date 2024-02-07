@@ -17,7 +17,7 @@ def generate_keys():
         randomchar = random.choice(charList)
         password.append(randomchar)
     key = "".join(password)    
-
+    print(key)
     return key
 
 def save_output(output, file_path):
