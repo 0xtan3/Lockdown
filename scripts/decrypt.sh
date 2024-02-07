@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <mount_point>"
+    echo "Usage: $0 <mount_point> <dumped_files>"
     exit 1
 fi
 
@@ -20,24 +20,14 @@ if [ ! -d "$MOUNT_POINT" ]; then
     sudo mkdir -p "$MOUNT_POINT"
 fi
 
-# creating direcory for db
-new_dbpath=/data/db
-if [ ! -d "$new_dbpath" ]; then
-    sudo mkdir -p "$new_dbpath"
-fi
-
 # assign a loop device to the file
-losetup -f /backup/archive.img
-
-# get the loop device
-loop_device=$(losetup -a | grep archive.img | awk '{print $1}' | tr -d ':')
+loop_device=$(losetup -f $DUMP/archive.img)
 
 # execute luksOpen
 echo "executing luksOpen"
-(echo -n "$KEY") | cryptsetup luksOpen --key-file /opt/lockdown/key.txt $loop_device $dev_node
+(echo -n "$KEY") | sudo -S cryptsetup luksOpen $loop_device $dev_node
 
 # mount the luks device to /data/db
 echo "mount device..."
 mount /dev/mapper/$dev_node $MOUNT_POINT
 
-#FIXME: --decrypt needs to know the encrypted image

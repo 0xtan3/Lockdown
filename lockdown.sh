@@ -60,7 +60,7 @@ function encrypt {
     echo -e "Encryption completed for $MOUNT_POINT\n"
 
     read -p "Do you wish to keep $MOUNT_POINT visible [Y/N] " choice
-    if [[ $choice == [Yy] ]]; then
+    if [[ $choice == [Nn] ]]; then
         sudo umount $MOUNT_POINT
     else
         exit
@@ -82,7 +82,7 @@ function decrypt {
 
     echo -e "Decryption completed for $MOUNT_POINT\n"
     read -p "Do you wish to keep $MOUNT_POINT visible [Y/N] " choice
-    if [[$choice == [Yy] ]]; then
+    if [[ $choice == [Nn] ]]; then
         sudo umount $MOUNT_POINT
     else
         exit
@@ -102,6 +102,10 @@ while [ "$#" -gt 0 ]; do
         -m)
             shift
             MOUNT_POINT="$1"
+            ;;
+        -d)
+            shift
+            DUMP="$1"
             ;;
         --install)
             MODE="install"

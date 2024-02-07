@@ -42,6 +42,11 @@ fi
 
 MOUNT_POINT="$1"
 
+# creating directory for mount
+if [ ! -d "$MOUNT_POINT" ]; then
+    sudo mkdir -p "$MOUNT_POINT"
+fi
+
 root_path=./data
 
 mkdir $root_path
