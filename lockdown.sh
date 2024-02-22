@@ -15,6 +15,9 @@ echo "
                                         by $Author
 "
 
+# make scripts executable
+chmod +x scripts/*
+
 # Function to display usage information
 function show_usage {
     echo "To encrypt: $0 --encrypt -m <mount_point>"
@@ -25,8 +28,8 @@ function show_usage {
 function show_help {
     echo "Usage: $0 [options]"
     echo "Options:"
-    echo "  --encrypt        Encrypt a database"
-    echo "  --decrypt        Decrypt a database"
+    echo "  --encrypt        Set for encryption"
+    echo "  --decrypt        Set for decryption"
     echo "  -m <mount_point> Specify the mount point for the database"
     echo "  -d <dump_point>  Specify the location of file dumps"
     echo "  --install        Install required packages"
@@ -38,13 +41,6 @@ function install_packages {
     # Add your package installation commands here
     echo "Installing packages..."
     sudo ./scripts/install.sh
-}
-
-function clean_all {
-    sudo umount $MOUNT_POINT
-    sudo cryptsetup luksClose luks
-    sudo losetup -D
-    echo "Luks device has been removed successfully"
 }
 
 # Function to perform encryption
@@ -112,11 +108,6 @@ while [ "$#" -gt 0 ]; do
             install_packages
             exit 0
             ;;
-        --clean)
-            MODE="clean"
-            clean_all
-            exit 0
-            ;;
         --help)
             MODE="help"
             show_help
@@ -143,8 +134,6 @@ elif [ "$MODE" == "decrypt" ]; then
     decrypt
 elif [ "$MODE" == "install" ]; then
     install_packages
-elif [ "$MODE" == "clean" ]; then
-    clean_all
 elif [ "$MODE" == "help" ]; then
     show_help
 else
