@@ -23,10 +23,11 @@ fi
 
 # Prompt for the key
 read -rsp "Enter the key: " KEY
-echo
 
 # Assign a loop device to the file
-loop_device=$(losetup -f "$DUMP")
+losetup -f "$DUMP"
+
+loop_device=$(losetup -a | grep "$DUMP" | awk '{print $1}' | tr -d ':')
 
 # Check if loop device assignment was successful
 if [ -z "$loop_device" ]; then
