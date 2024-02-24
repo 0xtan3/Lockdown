@@ -26,11 +26,11 @@ read -rsp "Enter the key: " KEY
 echo
 
 # Assign a loop device to the file
-loop_device=$(losetup -f "$DUMP/archive.img")
+loop_device=$(losetup -f "$DUMP")
 
 # Check if loop device assignment was successful
 if [ -z "$loop_device" ]; then
-    echo "Error: Failed to assign loop device to '$DUMP/archive.img'."
+    echo "Error: Failed to assign loop device to '$DUMP'."
     exit 1
 fi
 
