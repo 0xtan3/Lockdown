@@ -15,12 +15,6 @@ if [ ! -d "$MOUNT_POINT" ]; then
     exit 1
 fi
 
-# Check if the dumped files directory exists
-if [ ! -d "$DUMP" ]; then
-    echo "Error: Dumped files directory '$DUMP' does not exist or is not a directory."
-    exit 1
-fi
-
 # Prompt for the key
 read -rsp "Enter the key: " KEY
 
