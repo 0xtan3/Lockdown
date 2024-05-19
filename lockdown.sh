@@ -2,7 +2,7 @@
 #!/bin/bash
 
 version=1.0
-Author="Akilesh Jayaraman"
+Author="0xtan3"
 
 echo "
 
