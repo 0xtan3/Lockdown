@@ -1,3 +1,5 @@
+![Logo](logo.png)
+
 # LOCKDOWN: LUKS-Based Data at Rest Encryption Tool for Databases
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
