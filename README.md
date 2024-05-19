@@ -1,4 +1,4 @@
-<img src="logo.png" style="display: block; margin: 0 auto;">
+<img src="logo.png" style="display: block; margin: 0 30;">
 
 # LOCKDOWN: LUKS-Based Data at Rest Encryption Tool for Databases
 
