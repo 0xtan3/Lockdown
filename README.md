@@ -66,7 +66,7 @@ Lockdown is a user-friendly LUKS-based data at rest encryption tool designed for
     - View help:
 
         ```bash
-        ./lockdown --help
+        ./lockdown.sh --help
         ```
 
 ## License
