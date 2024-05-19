@@ -2,21 +2,38 @@
 #!/bin/bash
 
 version=1.0
+Author="0xtan3"
 
 echo "
 
     __    ____  ________ __ ____  ____ _       ___   __
    / /   / __ \/ ____/ //_// __ \/ __ \ |     / / | / /
-  / /   / / / / /   / ,<  / / / / / / / | /| / /  |/ / 
- / /___/ /_/ / /___/ /| |/ /_/ / /_/ /| |/ |/ / /|  /  
-/_____/\____/\____/_/ |_/_____/\____/ |__/|__/_/ |_/   
-                                        version $version                 
+  / /   / / / / /   / ,<  / / / / / / / | /| / /  |/ /
+ / /___/ /_/ / /___/ /| |/ /_/ / /_/ /| |/ |/ / /|  /
+/_____/\____/\____/_/ |_/_____/\____/ |__/|__/_/ |_/
+                                        version $version
+                                        by $Author
 "
+
+# make scripts executable
+chmod +x scripts/*
 
 # Function to display usage information
 function show_usage {
-    echo "Usage: $0 (--encrypt|--decrypt) -m <mount_point>"
+    echo "To encrypt: $0 --encrypt -m <mount_point>"
+    echo "To decrypt: $0 --decrypt -m <mount_point> -d <dumped_files>"
     exit 1
+}
+
+function show_help {
+    echo "Usage: $0 [options]"
+    echo "Options:"
+    echo "  --encrypt        Set for encryption"
+    echo "  --decrypt        Set for decryption"
+    echo "  -m <mount_point> Specify the mount point for the database"
+    echo "  -d <dump_point>  Specify the location of file dumps"
+    echo "  --install        Install required packages"
+    echo "  --help           Show this help message"
 }
 
 # Function to install required packages
@@ -26,9 +43,6 @@ function install_packages {
     sudo ./scripts/install.sh
 }
 
-# Install packages in the background
-install_packages &
-
 # Function to perform encryption
 function encrypt {
     if [ -z "$MOUNT_POINT" ]; then
@@ -36,14 +50,17 @@ function encrypt {
         show_usage
     fi
 
-    ./scripts/encrypt.sh $MOUNT_POINT
+    sudo ./scripts/encrypt.sh $MOUNT_POINT
 
     echo
     echo -e "Encryption completed for $MOUNT_POINT\n"
-    read -p "Do you wish to keep $MOUNT_POINT visible [Y/N] " choice
-    if [[$choice == [Yy] ]]; then
-        sudo umount $MOUNT_POINT
 
+    read -p "Do you wish to keep $MOUNT_POINT visible [Y/N] " choice
+    if [[ $choice == [Nn] ]]; then
+        sudo umount $MOUNT_POINT
+    else
+        exit
+    fi
 }
 
 # Function to perform decryption
@@ -53,19 +70,25 @@ function decrypt {
         show_usage
     fi
 
-    ./scripts/decrypt.sh $MOUNT_POINT
+    if [ -z "$DUMP" ]; then
+        echo "Error: File dumps cannot be found."
+    fi
 
-    echo
+    sudo ./scripts/decrypt.sh $MOUNT_POINT $DUMP
+
     echo -e "Decryption completed for $MOUNT_POINT\n"
     read -p "Do you wish to keep $MOUNT_POINT visible [Y/N] " choice
-    if [[$choice == [Yy] ]]; then
+    if [[ $choice == [Nn] ]]; then
         sudo umount $MOUNT_POINT
-
+    else
+        exit
+    fi
 }
 
 # Parse command line arguments
 while [ "$#" -gt 0 ]; do
     case "$1" in
+
         --encrypt)
             MODE="encrypt"
             ;;
@@ -75,6 +98,20 @@ while [ "$#" -gt 0 ]; do
         -m)
             shift
             MOUNT_POINT="$1"
+            ;;
+        -d)
+            shift
+            DUMP="$1"
+            ;;
+        --install)
+            MODE="install"
+            install_packages
+            exit 0
+            ;;
+        --help)
+            MODE="help"
+            show_help
+            exit 0
             ;;
         *)
             echo "Error: Unknown option: $1"
@@ -95,6 +132,10 @@ if [ "$MODE" == "encrypt" ]; then
     encrypt
 elif [ "$MODE" == "decrypt" ]; then
     decrypt
+elif [ "$MODE" == "install" ]; then
+    install_packages
+elif [ "$MODE" == "help" ]; then
+    show_help
 else
     echo "Error: Unknown mode: $MODE"
     show_usage

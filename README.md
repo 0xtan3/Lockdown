@@ -1,4 +1,8 @@
-# LOCKDOWN: LUKS-Based Data at Rest Encryption Tool for Databases
+<div align="center">
+<img src="logo.png">
+</div>
+
+# LOCKDOWN: LUKS-Based Data at Rest Encryption Tool
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -9,8 +13,6 @@ LOCKDOWN is a user-friendly LUKS-based data at rest encryption tool designed for
 - **User-Friendly Interface**: LOCKDOWN offers a simple and intuitive command-line interface, making it easy for both beginners and experienced users to encrypt and decrypt database contents using LUKS.
 
 - **Secure LUKS Encryption**: Utilizes the Linux Unified Key Setup (LUKS) standard for disk encryption, providing robust security for your data.
-
-- **Database Support**: LOCKDOWN is designed to work with popular database systems, including MySQL, PostgreSQL, and SQLite.
 
 ## Table of Contents
 
@@ -38,6 +40,11 @@ LOCKDOWN is a user-friendly LUKS-based data at rest encryption tool designed for
 
     ```bash
     cd LOCKDOWN
+    ```
+3. Make the script executable:
+
+    ```bash
+    sudo chmod +x ./lockdown.sh
     ```
 
 ## Usage

@@ -1,10 +1,6 @@
 # key_gen.py
-
-# This is where the key files are generated and given to the crypt.sh file 
-# Rotating keys may be fine but lets see there is something like a option to change the password
 import string
 import random
-# import hashlib
 
 def generate_keys():
 
@@ -21,12 +17,17 @@ def generate_keys():
         randomchar = random.choice(charList)
         password.append(randomchar)
     key = "".join(password)    
+    print(key)
+    return key
 
-    #generate a cipher key
-    # cipher_key = hashlib.md5(joined_passwd.encode("utf-8")).hexdigest()
-    return print(key)
+def save_output(output, file_path):
+    with open(file_path, "w") as f:
+        f.write(output)
 
 if __name__=="__main__":
 
     #execute the function call
-    generate_keys()
+    save_output(generate_keys(),"./data/initial_password")
+
+
+#TODO: Save the key in a file that deletes in 24 hours

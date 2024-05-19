@@ -1,45 +1,53 @@
 #!/bin/bash
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <mount_point>"
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <mount_point> <dumped_files>"
     exit 1
 fi
 
 MOUNT_POINT="$1"
+DUMP="$2"
+dev_node=luks
 
-
-# Call the key_gen.py script and capture the output
-KEY=$(python3 key_gen.py)
-
-# variable representing the device node
-dev_node=luks_backup
-
-# creating directory for mount
-mnt_point=/data/mount
+# Check if the mount point exists
 if [ ! -d "$MOUNT_POINT" ]; then
-    sudo mkdir -p "$MOUNT_POINT"
+    echo "Error: Mount point '$MOUNT_POINT' does not exist or is not a directory."
+    exit 1
 fi
 
-# creating direcory for db
-new_dbpath=/data/db
-if [ ! -d "$new_dbpath" ]; then
-    sudo mkdir -p "$new_dbpath"
+# Prompt for the key
+read -rsp "Enter the key: " KEY
+
+# Assign a loop device to the file
+losetup -f "$DUMP"
+
+loop_device=$(losetup -a | grep "$DUMP" | awk '{print $1}' | tr -d ':')
+
+# Check if loop device assignment was successful
+if [ -z "$loop_device" ]; then
+    echo "Error: Failed to assign loop device to '$DUMP'."
+    exit 1
 fi
 
-# assign a loop device to the file
-losetup -f /backup/archive.img
+# Execute luksOpen
+echo "Executing luksOpen..."
+(echo -n "$KEY") | sudo -S cryptsetup luksOpen "$loop_device" $dev_node
 
-# get the loop device
-loop_device=$(losetup -a | grep archive.img | awk '{print $1}' | tr -d ':')
+# Check if luksOpen was successful
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to open LUKS device."
+    exit 1
+fi
 
-# assign the device node to a variable
-dev_node=luks_backup
+# Mount the LUKS device
+echo "Mounting device..."
+sudo mount "/dev/mapper/$dev_node" "$MOUNT_POINT"
 
-# execute luksOpen
-echo "executing luksOpen"
-cryptsetup luksOpen --key-file <(echo -n "$KEY") $loop_device $dev_node
+# Check if mounting was successful
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to mount device."
+    exit 1
+fi
 
-# mount the luks device to /data/db
-echo "mount device..."
-mount /dev/mapper/$dev_node $MOUNT_POINT
+echo "Decryption completed successfully."
 
