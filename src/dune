@@ -1,0 +1,9 @@
+(executable
+ (name main)
+ (public_name lockdown)
+ (libraries unix))
+
+(executable
+ (name test)
+ (public_name lockdown-test)
+ (libraries alcotest))

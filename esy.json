@@ -1,0 +1,14 @@
+{
+    "name": "lockdown",
+    "version": "0.1.0",
+    "esy": {
+      "build": "dune build"
+    },
+    "dependencies": {
+      "@opam/dune": "*",
+      "ocaml": "5.2.x",
+      "@opam/ocaml-lsp-server": "*",
+      "@opam/alcotest": "*",
+      "@opam/ocamlformat": "*"
+    }
+  }
